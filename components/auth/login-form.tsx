@@ -35,12 +35,12 @@ const LoginForm = () => {
     const onSubmit = (values: z.infer<typeof LoginSchema>) => {
         startTransition(() => {
             login(values).then((data) => {
-                if(data.success) {
+                if(data?.success) {
                     toast.success(data.success, {
                         description: "A confirmation email has been sent"
                     })
                 }
-                if(data.error) {
+                if(data?.error) {
                     toast.error(data.error, {
                         description: `${"Error in the data, check that everything is correct" || urlError}`
                     })
