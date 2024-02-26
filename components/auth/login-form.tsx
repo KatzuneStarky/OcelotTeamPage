@@ -162,7 +162,7 @@ const LoginForm = () => {
                                 <div className="my-6 flex flex-col items-center justify-center w-full">
                                     <Link href="/auth/forgot-password" className='text-orange-400'>Forgot password?</Link>
                                     <Link href="/auth/register">
-                                        Don't have an account?{" "}
+                                        Don&apos;t have an account?{" "}
                                         <span className='hover:text-orange-400 transition-all'>Register</span>
                                     </Link>
                                 </div>
