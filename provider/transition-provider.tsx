@@ -1,13 +1,16 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { ReactNode } from "react"
+import Navbar from "@/components/layout/navbar";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 
-export default function Template({
-    children
-}: { children: ReactNode }) {
+const TransitionProvider = ({ children }: { children: React.ReactNode }) => {
+    const pathName = usePathname();
+
     return (
-        <>
+        <AnimatePresence mode="wait" key={pathName}>
+            <Navbar />
             {children}
             <motion.div
                 className="absolute top-0 left-0 w-full h-[100vh] bg-white origin-bottom"
@@ -23,6 +26,8 @@ export default function Template({
                 exit={{ scaleY: 0 }}
                 transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             />
-        </>
-    )
-}
+        </AnimatePresence>
+    );
+};
+
+export default TransitionProvider;
