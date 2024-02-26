@@ -2,7 +2,7 @@
 
 import { RegisterSchema } from "@/schemas/auth-schema"
 import { z } from "zod"
-import bcrypt from "bcryptjs"
+import bcrypt from "bcrypt"
 import prismadb from "@/lib/db"
 import { getUserByEmail } from "@/data/user"
 import { generateVerificationToken } from "@/lib/tokens"
