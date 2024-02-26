@@ -7,8 +7,8 @@ import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { ModeToggle } from '../mode-toggle';
-import { User } from 'lucide-react';
 import Icon from '../icons';
+import { Mail } from 'lucide-react';
 
 
 type NavItem = {
@@ -27,37 +27,20 @@ const navItems: NavItem[] = [
   {
     label: "Projects",
     link: "/projects",
+    iconImage: <Icon name={"folder"} />,
     children: [
       {
-        label: "Todo list",
+        label: "Ocelot Team CMS",
         link: "#",
-        iconImage: <Icon name={"user"} />
-      },
-      {
-        label: "Calendar",
-        link: "#",
-        iconImage: ""
-      },
-      {
-        label: "Reminders",
-        link: "#",
-        iconImage: ""
-      },
-      {
-        label: "Planning",
-        link: "#",
-        iconImage: ""
+        iconImage: <Icon name={"app-window"} />
       }
     ]
   },
   {
     label: "Compnay",
     link: "/company",
+    iconImage: <Icon name={"building"} />,
     children: [
-      {
-        label: "History",
-        link: "#"
-      },
       {
         label: "Our Team",
         link: "/company/ourTeam",
@@ -65,14 +48,15 @@ const navItems: NavItem[] = [
       },
       {
         label: "Blog",
-        link: "#",
+        link: "/company/blog",
         iconImage: <Icon name={"newspaper"} />
       }
     ]
   },
   {
     label: "About",
-    link: "/about"
+    link: "/about",
+    iconImage: <Icon name={"info"} />,
   }
 ];
 
@@ -88,16 +72,14 @@ export default function Navbar() {
 
   return (
     <div className="mx-auto flex  w-full max-w-7xl justify-between px-4 py-5 text-sm">
-      {/* left side  */}
       <section ref={animationParent} className="flex items-center gap-10">
-        {/* logo */}
-        <img src={"logo"} alt=" logo" />
+        {/** <img src={"#"} alt=" logo" /> */}
         {isSideMenuOpen && <MobileNav closeSideMenu={closeSideMenu} />}
         <div className="hidden md:flex items-center gap-4 transition-all">
           {navItems.map((d, i) => (
             <Link
               key={i}
-              href={d.link ?? "#"}
+              href={d.link || ""}
               className="relative group px-2 py-3 transition-all justify-center "
             >
               <p className="flex cursor-pointer items-center gap-2 text-neutral-400 group-hover:text-black dark:group-hover:text-white ">
@@ -114,7 +96,7 @@ export default function Navbar() {
                   {d.children.map((ch, i) => (
                     <Link
                       key={i}
-                      href={ch.link ?? "#"}
+                      href={ch.link || ""}
                       className=" flex cursor-pointer items-center  py-1 pl-6 pr-8  text-neutral-400 hover:text-black  "
                     >
                       {/* image */}
@@ -134,8 +116,9 @@ export default function Navbar() {
       </section>
 
       {/* right side data */}
-      <section className=" hidden md:flex   items-center gap-8 ">
-        <Link href={"/contact"} className="h-fit text-neutral-400 transition-all hover:text-black/90">
+      <section className=" hidden md:flex items-center gap-8 ">
+        <Link href={"/contact"} className="h-fit text-neutral-400 flex items-center justify-center transition-all hover:text-black dark:hover:text-white">
+          <Mail className='mr-2' />
           Contact
         </Link>
         <ModeToggle />
@@ -195,7 +178,7 @@ function SingleNavItem(d: NavItem) {
     <Link
       ref={animationParent}
       onClick={toggleItem}
-      href={d.link ?? "#"}
+      href={d.link || ""}
       className="relative   px-2 py-3 transition-all "
     >
       <p className="flex cursor-pointer items-center gap-2 text-neutral-400 group-hover:text-black ">
@@ -214,13 +197,13 @@ function SingleNavItem(d: NavItem) {
           {d.children.map((ch, i) => (
             <Link
               key={i}
-              href={ch.link ?? "#"}
+              href={ch.link || ""}
               className=" flex cursor-pointer items-center  py-1 pl-6 pr-8  text-neutral-400 hover:text-black  "
             >
               {/* image */}
               {ch.iconImage && <img src={ch.iconImage} alt="item-icon" />}
               {/* item */}
-              <span className="whitespace-nowrap   pl-3 ">{ch.label}</span>
+              <span className="whitespace-nowrap pl-3 ">{ch.label}</span>
             </Link>
           ))}
         </div>
