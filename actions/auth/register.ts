@@ -30,6 +30,6 @@ export const register = async(values: z.infer<typeof RegisterSchema>) => {
     const verificationToken = await generateVerificationToken(email)
 
     return {
-        success: "User Created!"
+        success: "Confirmation mail sent!"
     }
 }
