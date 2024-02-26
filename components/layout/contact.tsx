@@ -1,10 +1,51 @@
-import Link from "next/link"
+"use client"
+
+import { useForm } from "react-hook-form";
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { Mail, Send } from "lucide-react"
 import { Textarea } from "../ui/textarea"
+import emailjs from '@emailjs/browser';
+import { ContactSchema } from "@/schemas/contact-schema";
+import { ZodError } from "zod";
+import { toast } from "sonner";
+
+type FormData = {
+    name: string;
+    email: string;
+    message: string;
+};
 
 export const ContactForm = () => {
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
+
+    const onSubmit = async (data: { name: string, email: string, message: string }) => {
+        try {
+            ContactSchema.parse(data);
+
+            await emailjs.send("service_etbqumm", "template_37bmmp2", data, {
+                publicKey: "p2fJQpADHS6h1KodU"
+            });
+
+            toast.success("The email was sent", {
+                description: "Your email has reached us and we will review it."
+            })
+
+            reset();
+        } catch (error) {
+            if (error instanceof ZodError) {
+                const errorMessage = error.errors.map(err => err.message).join(", ");
+                toast.error("Validation errors:", {
+                    description: errorMessage,                    
+                });
+            } else {
+                toast.error("Failed to send email:", {
+                    description: `${error}`
+                });
+            }
+        }
+    }
+
     return (
         <section className="body-font relative text-gray-400">
             <div className="container mx-auto px-5 py-24">
@@ -16,13 +57,13 @@ export const ContactForm = () => {
                 </div>
 
                 <div className="mx-auto md:w-2/3 lg:w-1/2">
-                    <form className="-m-2 flex flex-wrap">
+                    <form className="-m-2 flex flex-wrap" onSubmit={handleSubmit(onSubmit)}>
                         <div className="w-1/2 p-2">
                             <div className="relative">
                                 <Input
                                     type="text"
                                     id="name"
-                                    name="name"
+                                    {...register("name")}
                                     className="peer w-full rounded border py-1 px-3 text-base leading-8 
                                                placeholder-transparent outline-none transition-colors
                                                duration-200 ease-in-out focus:ring-2"
@@ -38,6 +79,13 @@ export const ContactForm = () => {
                                 >
                                     Name
                                 </Label>
+                                {errors.name && (
+                                    <div
+                                        className="mb-4 rounded-lg bg-danger-100 px-6 py-5 text-base text-danger-700"
+                                        role="alert">
+                                        {errors.name.message}
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className="w-1/2 p-2">
@@ -45,7 +93,7 @@ export const ContactForm = () => {
                                 <Input
                                     type="email"
                                     id="email"
-                                    name="email"
+                                    {...register("email")}
                                     className="peer w-full rounded border py-1 px-3 text-base leading-8 
                                                placeholder-transparent outline-none transition-colors
                                                duration-200 ease-in-out focus:ring-2"
@@ -60,13 +108,20 @@ export const ContactForm = () => {
                                               peer-focus:text-sm peer-focus:text-indigo-500">
                                     Email
                                 </Label>
+                                {errors.email && (
+                                    <div
+                                        className="mb-4 rounded-lg bg-danger-100 px-6 py-5 text-base text-danger-700"
+                                        role="alert">
+                                        {errors.email.message}
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className="mt-4 w-full p-2">
                             <div className="relative">
                                 <Textarea
                                     id="message"
-                                    name="message"
+                                    {...register("message")}
                                     className="peer w-full rounded border py-1 px-3 text-base leading-8 
                                                placeholder-transparent outline-none transition-colors
                                                duration-200 ease-in-out focus:ring-2 resize-none"
@@ -82,10 +137,18 @@ export const ContactForm = () => {
                                 >
                                     Message
                                 </Label>
+                                {errors.message && (
+                                    <div
+                                        className="mb-4 rounded-lg bg-danger-100 px-6 py-5 text-base text-danger-700"
+                                        role="alert">
+                                        {errors.message.message}
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className="w-full p-2">
                             <button
+                                type="submit"
                                 className="mx-auto flex items-center justify-center rounded border-0 bg-indigo-500 py-2 px-8 text-lg 
                             text-white hover:bg-indigo-600 focus:outline-none"
                             >
