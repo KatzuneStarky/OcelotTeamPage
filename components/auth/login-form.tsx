@@ -18,6 +18,7 @@ import { toast } from 'sonner'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 const LoginForm = () => {
+    const [showTwoFactor, setShowTwoFactor] = useState<boolean>(false)
     const [isPending, startTransition] = useTransition()
     const searchParams = useSearchParams()
     const router = useRouter()
@@ -35,16 +36,20 @@ const LoginForm = () => {
     const onSubmit = (values: z.infer<typeof LoginSchema>) => {
         startTransition(() => {
             login(values).then((data) => {
-                if(data?.success) {
+                if (data?.success) {
                     toast.success(data.success, {
                         description: "A confirmation email has been sent"
                     })
                 }
-                if(data?.error) {
+                if (data?.error) {
                     toast.error(data.error, {
                         description: `${"Error in the data, check that everything is correct" || urlError}`
                     })
                 }
+                if (data?.twoFactor) {
+                    setShowTwoFactor(true)
+                }
+
             })
         })
     }
@@ -95,47 +100,73 @@ const LoginForm = () => {
                                     <p className="mx-4 mb-0 text-center font-semibold dark:text-white">Or</p>
                                 </div>
 
-                                <div className="relative mb-6" data-te-input-wrapper-init>
-                                    <FormField
-                                        control={form.control}
-                                        name='email'
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Email</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        disabled={isPending}
-                                                        placeholder='**********@****.com'
-                                                        type='email'
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                {
+                                    showTwoFactor && (
+                                        <div className="relative mb-6" data-te-input-wrapper-init>
+                                            <FormField
+                                                control={form.control}
+                                                name="code"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Codigo 2FA</FormLabel>
+                                                        <FormControl>
+                                                            <Input {...field} disabled={isPending} placeholder="123456" className="block w-full p-4 text-lg rounded-sm bg-black" />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
+                                    )
+                                }
 
-                                <div className="relative mb-6" data-te-input-wrapper-init>
-                                    <FormField
-                                        control={form.control}
-                                        name='password'
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Password</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        disabled={isPending}
-                                                        placeholder='**************'
-                                                        type='password'
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                {
+                                    !showTwoFactor && (
+                                        <>
+                                            <div className="relative mb-6" data-te-input-wrapper-init>
+                                                <FormField
+                                                    control={form.control}
+                                                    name='email'
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel>Email</FormLabel>
+                                                            <FormControl>
+                                                                <Input
+                                                                    {...field}
+                                                                    disabled={isPending}
+                                                                    placeholder='**********@****.com'
+                                                                    type='email'
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                            </div>
+
+                                            <div className="relative mb-6" data-te-input-wrapper-init>
+                                                <FormField
+                                                    control={form.control}
+                                                    name='password'
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel>Password</FormLabel>
+                                                            <FormControl>
+                                                                <Input
+                                                                    {...field}
+                                                                    disabled={isPending}
+                                                                    placeholder='**************'
+                                                                    type='password'
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                            </div>
+                                        </>
+                                    )
+                                }
 
                                 <div className="text-center lg:text-left">
                                     <Button
@@ -155,12 +186,12 @@ const LoginForm = () => {
                                             dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                                         data-te-ripple-init
                                         data-te-ripple-color="light">
-                                        Login
+                                        {showTwoFactor ? "Confirm code  " : "Login"}
                                     </Button>
                                 </div>
 
                                 <div className="my-6 flex flex-col items-center justify-center w-full">
-                                    <Link href="/auth/forgot-password" className='text-orange-400'>Forgot password?</Link>
+                                    <Link href="/auth/reset" className='text-orange-400'>Forgot password?</Link>
                                     <Link href="/auth/register">
                                         Don&apos;t have an account?{" "}
                                         <span className='hover:text-orange-400 transition-all'>Register</span>

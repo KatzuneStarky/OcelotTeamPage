@@ -1,3 +1,4 @@
+import { UserRole } from "@prisma/client";
 import * as z from "zod";
 
 export const LoginSchema = z.object({
@@ -27,12 +28,13 @@ export const SettingsSchema = z.object({
         message: "Name is required",
     }),
     isTwoFactorEnabled: z.optional(z.boolean()),
-    email: z.optional(z.string().email({ message: "Se debe ingresar un correo valido" })),
+    role: z.enum([UserRole.ADMIN, UserRole.USER]),
+    email: z.optional(z.string().email({ message: "A valid email must be entered" })),
     password: z.optional(z.string().min(6, {
-        message: "Se requiere una contraseña de minimo 6 caracteres",
+        message: "A password of at least 6 characters is required.",
     })),
     newPassword: z.optional(z.string().min(6, {
-        message: "Se requiere una contraseña de minimo 6 caracteres",
+        message: "A password of at least 6 characters is required.",
     })),
 }).refine((data) => {
     if(data.password && !data.newPassword) return false
@@ -40,7 +42,7 @@ export const SettingsSchema = z.object({
 
     return true
 }, {
-    message: "La nueva contraseña es requerida",
+    message: "New password is required",
     path: ["newPassword"]
 })
 
@@ -53,8 +55,6 @@ export const NewPasswordSchema = z.object({
 export const ResetSchema = z.object({
     email: z
         .string()
-        .email({ message: "Se debe ingresar un correo valido" })
-        .min(1, { message: "El correo debe ser mayor a 1 caracter" }),
+        .email({ message: "A valid email must be entered" })
+        .min(1, { message: "The email must be greater than 1 character" }),
 });
-
-{/**role: z.enum([UserRole.ADMIN, UserRole.USER]), */}

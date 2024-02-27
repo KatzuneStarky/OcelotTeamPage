@@ -21,7 +21,7 @@ export const BackButton = ({
             variant="link"
             className={cn(
                 "font-bold w-full",
-                color === "black" ? "text-black" : "text-white"
+                color === "black" ? "text-black dark:text-white" : "text-white dark:text-black"
             )}
             size="lg"
             asChild

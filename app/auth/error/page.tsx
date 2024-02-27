@@ -10,22 +10,24 @@ const ErrorPage = () => {
         <div className="w-full h-screen items-center flex justify-center">
             <Card className="shadow-md">
                 <CardHeader>
-                    <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+                    <h1 className="mb-4 text-4xl font-extrabold text-center leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
                         There was a problem,
+                        <br />
                         <span className="text-blue-600 dark:text-blue-500">
                             {" "}return to the
                         </span>
+                        <br />
                         {" "}login page
                     </h1>
                 </CardHeader>
                 <CardContent className="flex items-center justify-center stroke-none">
-                    <Lottie className="w-1/4" animationData={errorAlert} />
+                    <Lottie className="w-2/4" animationData={errorAlert} />
                 </CardContent>
                 <CardFooter>
                     <BackButton
                         href="/auth/login"
                         label="Go back to the login page"
-                        color="white"
+                        color="black"
                     />
                 </CardFooter>
             </Card>
