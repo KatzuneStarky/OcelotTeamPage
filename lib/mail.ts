@@ -1,12 +1,13 @@
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const domain = process.env.NEXT_PUBLIC_APP_URL
 
 export const sendVerificationEmail = async (email: string, token: string) => {
-    const confirmLink = `http://localhost:3000/auth/new-verification?token=${token}`;
+    const confirmLink = `${domain}/auth/new-verification?token=${token}`;
 
     await resend.emails.send({
-        from: 'grupodiaz@resend.dev',
+        from: 'ocelotteam@gmail.com',
         to: email,
         subject: 'Email Confirmation',
         html: `
@@ -24,19 +25,19 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 };
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-    const resetLink = `http://localhost:3000/auth/new-password?token=${token}`;
+    const resetLink = `${domain}/auth/new-password?token=${token}`;
 
     await resend.emails.send({
-        from: "grupodiaz@resend.dev",
+        from: "ocelotteam@gmail.com",
         to: email,
         subject: "Reinicie su contraseña",
-        html: `<p>Click <a href="${resetLink}" >aqui </a>para confirmar recuperar su contraseña</p>`,
+        html: `<p>Click <a href="${resetLink}" > here </a>to confirm recover your password</p>`,
     });
 };
 
 export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
     await resend.emails.send({
-        from: "grupodiaz@resend.dev",
+        from: "ocelotteam@gmail.com",
         to: email,
         subject: "2FA Code",
         html: `<p>Your 2FA code ${token}</p>`,
