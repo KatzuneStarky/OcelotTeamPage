@@ -8,9 +8,6 @@ export default function Template({
     children
 }: { children: ReactNode }) {
     const pathName = usePathname()
-    console.log(pathName.substring(1));
-
-
     return (
         <>
             {children}
