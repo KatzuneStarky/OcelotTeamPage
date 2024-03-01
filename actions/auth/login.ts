@@ -6,7 +6,6 @@ import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 import { getUserByEmail } from "@/data/user";
-import { getVerificationTokenByToken } from "@/data/verification-token";
 import { generateTwoFactorToken, generateVerificationToken } from "@/lib/tokens";
 import { sendTwoFactorTokenEmail, sendVerificationEmail } from "@/lib/mail";
 import prismadb from "@/lib/db";

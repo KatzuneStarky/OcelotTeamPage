@@ -4,7 +4,7 @@ import React from 'react'
 
 const AboutPage = () => {
   return (
-    <section className="overflow-hidden">
+    <section className="overflow-hidden mb-10">
     <div className="container mx-auto">
       <div className="flex flex-wrap items-center justify-between -mx-4">
         <div className="w-full px-4 lg:w-6/12">
@@ -56,7 +56,7 @@ const AboutPage = () => {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center py-3 text-base font-medium text-center border border-transparent rounded-md px-7 bg-black hover:bg-opacity-90"
+              className="inline-flex items-center justify-center py-3 text-base font-medium text-center border border-transparent rounded-md px-7 bg-orange-400  dark:bg-black dark:text-white hover:bg-opacity-90"
             >
               Contact Us
             </Link>

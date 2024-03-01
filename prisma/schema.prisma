@@ -30,6 +30,9 @@ model User {
   accounts              Account[]
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+
+  Post          Post[]
+  Comment       Comment[]
 }
 
 model Account {
@@ -85,4 +88,37 @@ model TwoFactorConfirmation {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
+}
+
+model Category {
+  id    String  @id @default(cuid())
+  slug  String  @unique
+  title String
+  img   String?
+  Posts Post[]
+}
+
+model Post {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  slug      String    @unique
+  title     String
+  desc      String
+  img       String?
+  views     Int       @default(0)
+  catSlug   String
+  cat       Category  @relation(fields: [catSlug], references: [slug])
+  userEmail String
+  user      User      @relation(fields: [userEmail], references: [email])
+  comments  Comment[]
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  desc      String
+  userEmail String
+  user      User     @relation(fields: [userEmail], references: [email])
+  postSlug  String
+  post      Post     @relation(fields: [postSlug], references: [slug])
 }
