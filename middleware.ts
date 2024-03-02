@@ -6,7 +6,7 @@ const { auth } = NextAuth(authConfig)
 
 export default auth((req) => {
     const { nextUrl } = req
-    const isLoggedIn = !!req.auth 
+    const isLoggedIn = !!req.auth
 
     const isApiRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
@@ -26,6 +26,9 @@ export default auth((req) => {
     if(!isLoggedIn && !isPublicRoute) {
         let callbackUrl = nextUrl.pathname
         if(nextUrl.search) callbackUrl += nextUrl.search
+        if(nextUrl.pathname.startsWith(`/projects/:id`)) {
+            return Response.redirect(new URL(`/projects/:id`, nextUrl))
+        }
 
         return Response.redirect(new URL(`/auth/login`, nextUrl))
     }
