@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url  	    = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
@@ -31,8 +31,8 @@ model User {
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
 
-  Post          Post[]
-  Comment       Comment[]
+  Post    Post[]
+  Comment Comment[]
 }
 
 model Account {
@@ -121,4 +121,23 @@ model Comment {
   user      User     @relation(fields: [userEmail], references: [email])
   postSlug  String
   post      Post     @relation(fields: [postSlug], references: [slug])
+}
+
+model TeamMeber {
+  id          String  @id @default(cuid())
+  image       String?
+  name        String?
+  role        String?
+  description String?
+
+  socialMedia SocialMedia[]
+}
+
+model SocialMedia {
+  id   String  @id @default(cuid())
+  name String?
+  url  String?
+
+  teamMemberId String
+  teamMember   TeamMeber @relation(fields: [teamMemberId], references: [id])
 }

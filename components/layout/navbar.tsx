@@ -37,7 +37,7 @@ const navItems: NavItem[] = [
     ]
   },
   {
-    label: "Compnay",
+    label: "Company",
     link: "/company",
     iconImage: <Icon name={"building"} />,
     children: [
