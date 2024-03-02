@@ -43,8 +43,8 @@ export const TeamForm: React.FC<TeamFormProps> = ({
 
     const title = initialData ? 'Edit a team member' : 'Create a new team member';
     const description = initialData ? 'Edit a team members data' : 'Create a new record with a team members details';
-    const toastDescription = initialData 
-        ? `${initialData.name} member's details were updated` 
+    const toastDescription = initialData
+        ? `${initialData.name} member's details were updated`
         : `The team member was created and uploaded to the database`;
     const action = initialData ? 'Save Changes' : 'Create';
 
@@ -62,9 +62,9 @@ export const TeamForm: React.FC<TeamFormProps> = ({
         try {
             setLoading(true);
             if (initialData) {
-                await axios.patch(`/api/admin/team/${initialData.id}`, values);
+                await axios.patch(`/api/team/${initialData.id}`, values);
             } else {
-                await axios.post(`/api/admin/team`, values);
+                await axios.post(`/api/team`, values);
             }
 
             router.refresh();
@@ -81,7 +81,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({
     const onDelete = async () => {
         try {
             setLoading(true);
-            await axios.delete(`/api/admin/team/${initialData?.id}`);
+            await axios.delete(`/api/team/${initialData?.id}`);
             router.refresh();
             router.push(`/admin/team`);
             toast.success('Eliminated team member');

@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "./ui/button";
 import { ArrowTopRightIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface ProjectCardProps {
     id: string,
@@ -40,7 +41,7 @@ const ProjectCard = ({
                         alt={name}
                     />
                 </CardContent>
-                <CardFooter className="flex gap-4">
+                <CardFooter className="flex items-center justify-center gap-4 w-full">
                     <Button
                         onClick={() => {
                             router.push(`/projects/${id}`);
@@ -49,7 +50,9 @@ const ProjectCard = ({
                         <EyeOpenIcon /> Details
                     </Button>
                     <Button variant="link">
-                        Source code <ArrowTopRightIcon />
+                        <Link href={github || ""} target="_blank" className="flex items-center justify-center">
+                            Source code <ArrowTopRightIcon />
+                        </Link>
                     </Button>
                 </CardFooter>
             </Card>

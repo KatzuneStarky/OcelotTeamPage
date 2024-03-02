@@ -27,9 +27,8 @@ export default function Navbar() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`${origin}/api/admin/projects`)
-
-      setData(response.data)
+      const response = await axios.get(`${origin}/api/projects`)
+      setData(response.data);
     }
 
     fetchData()
@@ -45,7 +44,7 @@ export default function Navbar() {
       label: "Projects",
       link: "/projects",
       iconImage: <Icon name={"folder"} />,
-      children: data.slice(0, 3).map((dt) => ({
+      children: data.map((dt) => ({
         label: dt.name,
         link: `/projects/${dt.id}`,
         iconImage: <Icon name={"app-window"} />,
@@ -150,7 +149,7 @@ function MobileNav({ closeSideMenu }: { closeSideMenu: () => void }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`${origin}/api/admin/projects`)
+      const response = await axios.get(`${origin}/api/projects`)
 
       setData(response.data)
     }
@@ -168,7 +167,7 @@ function MobileNav({ closeSideMenu }: { closeSideMenu: () => void }) {
       label: "Projects",
       link: "/projects",
       iconImage: <Icon name={"folder"} />,
-      children: data.slice(0, 3).map((dt) => ({
+      children: data.map((dt) => ({
         label: dt.name,
         link: `/projects/${dt.id}`,
         iconImage: <Icon name={"app-window"} />,

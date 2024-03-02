@@ -62,9 +62,9 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
         try {
             setLoading(true);
             if (initialData) {
-                await axios.patch(`/api/admin/projects/${initialData.id}`, values);
+                await axios.patch(`/api/projects/${initialData.id}`, values);
             } else {
-                await axios.post(`/api/admin/projects`, values);
+                await axios.post(`/api/projects`, values);
             }
 
             router.refresh();
@@ -81,7 +81,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
     const onDelete = async () => {
         try {
             setLoading(true);
-            await axios.delete(`/api/admin/projects/${initialData?.id}`);
+            await axios.delete(`/api/projects/${initialData?.id}`);
             router.refresh();
             router.push(`/admin/projects`);
             toast.success('Deleted project');

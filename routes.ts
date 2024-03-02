@@ -6,7 +6,9 @@ export const publicRoutes = [
     "/company/blog",
     "/contact",
     "/projects",
-    "/auth/new-verification"
+    "/auth/new-verification",
+    "/api/projects",
+    "/api/team"
 ]
 
 export const authRoutes = [

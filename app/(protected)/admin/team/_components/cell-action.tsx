@@ -25,13 +25,13 @@ export const CellAction: React.FC<CellActionsProps> = ({
 
     const onCopy = (id: string) => {
         navigator.clipboard.writeText(id)
-        toast.success("")
+        toast.success("Copied team member id")
     }
 
     const onDelete = async () => {
         try {
             setLoading(true)
-            await axios.delete(`/api/admin/team/${data.id}`)
+            await axios.delete(`/api/team/${data.id}`)
             router.refresh()
             toast.success("Removed team member")
         } catch (error) {
@@ -66,7 +66,7 @@ export const CellAction: React.FC<CellActionsProps> = ({
                         <Copy className="mr-2 h-4 w-4" />
                         Copy team member id
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => router.push(`/api/admin/team/${data.id}`)}>
+                    <DropdownMenuItem onClick={() => router.push(`/admin/team/${data.id}`)}>
                         <Edit className="mr-2 h-4 w-4" />
                         Update data
                     </DropdownMenuItem>

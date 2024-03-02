@@ -31,7 +31,7 @@ export const CellAction: React.FC<CellActionsProps> = ({
     const onDelete = async () => {
         try {
             setLoading(true)
-            await axios.delete(`/api/admin/projects/${data.id}`)
+            await axios.delete(`/api/projects/${data.id}`)
             router.refresh()
             toast.success("Project deleted")
         } catch (error) {
@@ -66,7 +66,7 @@ export const CellAction: React.FC<CellActionsProps> = ({
                         <Copy className="mr-2 h-4 w-4" />
                         Copy project id
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => router.push(`/api/admin/projects/${data.id}`)}>
+                    <DropdownMenuItem onClick={() => router.push(`/admin/projects/${data.id}`)}>
                         <Edit className="mr-2 h-4 w-4" />
                         Update data
                     </DropdownMenuItem>

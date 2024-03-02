@@ -48,6 +48,7 @@ export async function GET(
 ) {
     try {
         const user = await currentUser()
+        console.log(user)
         if (!user?.id) return new NextResponse("Unauthenticated", { status: 403 });
         if (user?.role != "ADMIN") return new NextResponse("Unauthorized", { status: 403 });
 
@@ -59,7 +60,7 @@ export async function GET(
             return new NextResponse("Unauthorized", { status: 403 });
         }
     } catch (error) {
-        console.log('[CLIENTES_GET]', error);
+        console.log('[TEAM-MEMBER_GET]', error);
         return new NextResponse("Internal error", { status: 500 });
     }
 };

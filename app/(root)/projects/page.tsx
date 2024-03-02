@@ -21,7 +21,7 @@ const ProjectsPage = async () => {
       </div>
       <section
         data-aos="fade-in"
-        className="w-full max-w-sm md:max-w-5xl m-auto grid grid-cols-3 gap-5 mb-10">
+        className="w-full max-w-sm md:max-w-5xl m-auto grid grid-cols-3 gap-5 mb-10 items-center justify-center">
         {
           projects.map((project) => (
             <ProjectCard
