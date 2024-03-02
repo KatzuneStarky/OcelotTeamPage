@@ -11,33 +11,32 @@ import { useParams, useRouter } from "next/navigation"
 import { Separator } from "@/components/ui/separator"
 import { DataTable } from "@/components/ui/data-table"
 import { useCurrentRole } from "@/hooks/use-current-role"
-import { TeamMemberColumn, columns } from "./columns"
 import { Heading } from "@/components/layout/heading"
-import { useCurrentUser } from "@/hooks/use-current-user"
+import { ProjectsColumn, columns } from "./columns"
 
-interface TeamMemberClientPorps {
-    data: TeamMemberColumn[]
+interface ProjectsClientPorps {
+    data: ProjectsColumn[]
 }
 
-export const TeamMemberClient: React.FC<TeamMemberClientPorps> = ({
+export const ProjectsClient: React.FC<ProjectsClientPorps> = ({
     data
 }) => {
     const router = useRouter()
     const params = useParams()
-    const user = useCurrentUser()
+    const role = useCurrentRole()
 
     return (
         <>
             <div className="flex items-center justify-between">
                 <Heading
-                    title={`Team members (${data.length})`}
-                    description="Manage team member data"
+                    title={`Projects (${data.length})`}
+                    description="Administration of data on company projects"
                 />
                 <div>
                     {
-                        user?.role === "ADMIN" && (
+                        role === "ADMIN" && (
                             <Button
-                                onClick={() => router.push(`/admin/team/new`)}
+                                onClick={() => router.push(`/admin/projects/new`)}
                             >
                                 <Plus className="mr-2 h-4 w-4" />
                                 Add new

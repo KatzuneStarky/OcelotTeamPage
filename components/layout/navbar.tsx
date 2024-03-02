@@ -1,7 +1,7 @@
 "use client"
 
 import Link from 'next/link'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoIosArrowDown } from "react-icons/io";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
@@ -9,7 +9,8 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { ModeToggle } from '../mode-toggle';
 import Icon from '../icons';
 import { Mail } from 'lucide-react';
-
+import { useOrigin } from '@/hooks/user-origin';
+import axios from 'axios';
 
 type NavItem = {
   label: string;
@@ -18,51 +19,62 @@ type NavItem = {
   iconImage?: any
 };
 
-const navItems: NavItem[] = [
-  {
-    label: "Home",
-    link: "/",
-    iconImage: <Icon name={"home"} /> 
-  },
-  {
-    label: "Projects",
-    link: "/projects",
-    iconImage: <Icon name={"folder"} />,
-    children: [
-      {
-        label: "Ocelot Team CMS",
-        link: "#",
-        iconImage: <Icon name={"app-window"} />
-      }
-    ]
-  },
-  {
-    label: "Company",
-    link: "/company",
-    iconImage: <Icon name={"building"} />,
-    children: [
-      {
-        label: "Our Team",
-        link: "/company/ourTeam",
-        iconImage: <Icon name={"users-round"} />
-      },
-      {
-        label: "Blog",
-        link: "/company/blog",
-        iconImage: <Icon name={"newspaper"} />
-      }
-    ]
-  },
-  {
-    label: "About",
-    link: "/about",
-    iconImage: <Icon name={"info"} />,
-  }
-];
-
 export default function Navbar() {
+  const origin = useOrigin()
   const [animationParent] = useAutoAnimate();
   const [isSideMenuOpen, setSideMenue] = useState(false);
+  const [data, setData] = useState<any[]>([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(`${origin}/api/admin/projects`)
+
+      setData(response.data)
+    }
+
+    fetchData()
+  }, [origin])
+
+  const navItems: NavItem[] = [
+    {
+      label: "Home",
+      link: "/",
+      iconImage: <Icon name={"home"} />
+    },
+    {
+      label: "Projects",
+      link: "/projects",
+      iconImage: <Icon name={"folder"} />,
+      children: data.slice(0, 3).map((dt) => ({
+        label: dt.name,
+        link: `/projects/${dt.id}`,
+        iconImage: <Icon name={"app-window"} />,
+      }))
+    },
+    {
+      label: "Company",
+      link: "/company",
+      iconImage: <Icon name={"building"} />,
+      children: [
+        {
+          label: "Our Team",
+          link: "/company/ourTeam",
+          iconImage: <Icon name={"users-round"} />
+        },
+        {
+          label: "Blog",
+          link: "/company/blog",
+          iconImage: <Icon name={"newspaper"} />
+        }
+      ]
+    },
+    {
+      label: "About",
+      link: "/about",
+      iconImage: <Icon name={"info"} />,
+    }
+  ]
+
   function openSideMenu() {
     setSideMenue(true);
   }
@@ -133,6 +145,59 @@ export default function Navbar() {
 }
 
 function MobileNav({ closeSideMenu }: { closeSideMenu: () => void }) {
+  const origin = useOrigin()
+  const [data, setData] = useState<any[]>([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(`${origin}/api/admin/projects`)
+
+      setData(response.data)
+    }
+
+    fetchData()
+  }, [origin])
+
+  const navItems: NavItem[] = [
+    {
+      label: "Home",
+      link: "/",
+      iconImage: <Icon name={"home"} />
+    },
+    {
+      label: "Projects",
+      link: "/projects",
+      iconImage: <Icon name={"folder"} />,
+      children: data.slice(0, 3).map((dt) => ({
+        label: dt.name,
+        link: `/projects/${dt.id}`,
+        iconImage: <Icon name={"app-window"} />,
+      }))
+    },
+    {
+      label: "Company",
+      link: "/company",
+      iconImage: <Icon name={"building"} />,
+      children: [
+        {
+          label: "Our Team",
+          link: "/company/ourTeam",
+          iconImage: <Icon name={"users-round"} />
+        },
+        {
+          label: "Blog",
+          link: "/company/blog",
+          iconImage: <Icon name={"newspaper"} />
+        }
+      ]
+    },
+    {
+      label: "About",
+      link: "/about",
+      iconImage: <Icon name={"info"} />,
+    }
+  ]
+
   return (
     <div className="fixed left-0 top-0 flex h-full min-h-screen w-full justify-end bg-black/60 md:hidden">
       <div className=" h-full w-[65%] bg-white px-4 py-4">

@@ -141,3 +141,12 @@ model SocialMedia {
   teamMemberId String
   teamMember   TeamMeber @relation(fields: [teamMemberId], references: [id])
 }
+
+model Projects {
+  id           String  @id @default(cuid())
+  name         String
+  imageUrl     String
+  website      String?
+  technologies String?
+  github       String?
+}

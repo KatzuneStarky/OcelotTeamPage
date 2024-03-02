@@ -8,10 +8,10 @@ import axios from "axios"
 import { useState } from "react"
 import { AlertModal } from "@/components/modals/alert-modal"
 import { toast } from "sonner"
-import { TeamMemberColumn } from "./columns"
+import { ProjectsColumn } from "./columns"
 
 interface CellActionsProps {
-    data: TeamMemberColumn
+    data: ProjectsColumn
 }
 
 export const CellAction: React.FC<CellActionsProps> = ({
@@ -25,15 +25,15 @@ export const CellAction: React.FC<CellActionsProps> = ({
 
     const onCopy = (id: string) => {
         navigator.clipboard.writeText(id)
-        toast.success("")
+        toast.success("The project id was copied")
     }
 
     const onDelete = async () => {
         try {
             setLoading(true)
-            await axios.delete(`/api/admin/team/${data.id}`)
+            await axios.delete(`/api/admin/projects/${data.id}`)
             router.refresh()
-            toast.success("Removed team member")
+            toast.success("Project deleted")
         } catch (error) {
             toast.error("Something went wrong")
             console.log(error);
@@ -64,9 +64,9 @@ export const CellAction: React.FC<CellActionsProps> = ({
                     </DropdownMenuLabel>
                     <DropdownMenuItem onClick={() => onCopy(data.id)}>
                         <Copy className="mr-2 h-4 w-4" />
-                        Copy team member id
+                        Copy project id
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => router.push(`/api/admin/team/${data.id}`)}>
+                    <DropdownMenuItem onClick={() => router.push(`/api/admin/projects/${data.id}`)}>
                         <Edit className="mr-2 h-4 w-4" />
                         Update data
                     </DropdownMenuItem>

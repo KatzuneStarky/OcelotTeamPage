@@ -1,41 +1,58 @@
+"use client"
+
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { ArrowTopRightIcon, EyeOpenIcon } from "@radix-ui/react-icons";
+import { useRouter } from "next/navigation";
+
 interface ProjectCardProps {
-    image?: string,
-    title: string,
-    description: string,
-    techs: string[] | undefined
+    id: string,
+    imageUrl?: string,
+    name: string,
+    website?: string,
+    technologies?: string,
+    github?: string
 }
 
 const ProjectCard = ({
-    image,
-    title,
-    description,
-    techs = []
+    id,
+    imageUrl,
+    name,
+    website,
+    technologies,
+    github
 }: ProjectCardProps) => {
+    const router = useRouter();
+
     return (
-        <div className="grid w-[80%] mx-auto pt-[5rem] grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <div className="p-4 rounded-xl relative cursor-pointer hover:-rotate-6 transform transition-all
-            duration-200 bg-gray-800 shadow-sm">
-                <img
-                    src={`${image}`}
-                    alt={title}
-                    width={500}
-                    height={500}
-                    className="object-contain rounded-xl mx-auto shadow-md"
-                />
-            </div>
-            <div>
-                <h1 className="text-[25px]">{title}</h1>
-                <p className="opacity-65 text-[15px] mt-[1rem]">
-                    {description}
-                </p>
-                <div className="mt-[1.3rem] grid-cols-2 grid sm:grid-cols-3 xl:grid-cols-4 gap-[2rem]">
-                    {techs.map((tech, index) => (
-                        <h1 key={index} className="px-6 py-3 bg-blue-700 rounded-lg text-center">
-                            {tech}
-                        </h1>
-                    ))}
-                </div>
-            </div>
+        <div className="p-1">
+            <Card className="p-4">
+                <CardHeader>
+                    <CardTitle>{name}</CardTitle>
+                    <CardDescription className="mt-1">
+                        {website}
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="flex aspect-square items-center justify-center mt-4">
+                    <img
+                        className="w-full"
+                        src={imageUrl || ""}
+                        alt={name}
+                    />
+                </CardContent>
+                <CardFooter className="flex gap-4">
+                    <Button
+                        onClick={() => {
+                            router.push(`/projects/${id}`);
+                        }}
+                    >
+                        <EyeOpenIcon /> Details
+                    </Button>
+                    <Button variant="link">
+                        Source code <ArrowTopRightIcon />
+                    </Button>
+                </CardFooter>
+            </Card>
         </div>
     )
 }
