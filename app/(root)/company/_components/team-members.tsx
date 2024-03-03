@@ -16,7 +16,7 @@ async function TeamMembers() {
                 <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
                     <div className="grid gap-8 mb-6 lg:mb-16 md:grid-cols-2 w-full">
                         {teamMembers.map((member) => (
-                            <div className="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
+                            <div className="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700" key={member.id}>
                                 <img
                                     className="w-1/2 rounded-lg sm:rounded-none sm:rounded-l-lg"
                                     src={member.image || ""}
