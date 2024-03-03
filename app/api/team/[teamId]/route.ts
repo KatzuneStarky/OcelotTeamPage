@@ -42,57 +42,49 @@ export async function DELETE(
             return new NextResponse("Unauthorized", { status: 403 });
         }
     } catch (error) {
-        console.log('[CLIENTES_DELETE]', error);
+        console.log('[TEAM_MEMBER_DELETE]', error);
         return new NextResponse("Internal error", { status: 500 });
     }
 };
 
-{/**
-
 export async function PATCH(
     req: Request,
-    { params }: { params: { clienteId: string, areaId: string } }
+    { params }: { params: { teamId: string } }
 ) {
     try {
         const user = await currentUser()
 
         const body = await req.json();
 
-        const { name, activo } = body;
+        const { image, name, role, description } = body;
 
         if (!user?.id) {
             return new NextResponse("Unauthenticated", { status: 403 });
         }
 
-        if (!params.clienteId) {
-            return new NextResponse("Product id is required", { status: 400 });
+        if (user?.role != "ADMIN") {
+            return new NextResponse("Unauthorized", { status: 403 });
         }
 
-        const storeByUserId = await prismadb.area.findFirst({
-            where: {
-                id: params.areaId,
-                userId: user?.id
-            }
-        });
-
-        if (!storeByUserId) {
-            return new NextResponse("Unauthorized", { status: 405 });
+        if(user.role === "ADMIN"){
+            const member = await prismadb.teamMeber.update({
+                where: {
+                    id: params.teamId
+                },
+                data: {
+                    image,
+                    name,
+                    role,
+                    description
+                },
+            })
+    
+            return NextResponse.json(member);
+        } else {
+            return new NextResponse("Unauthorized", { status: 403 });
         }
-
-        const product = await prismadb.clientes.update({
-            where: {
-                id: params.clienteId
-            },
-            data: {
-                name,
-                activo,
-            },
-        })
-
-        return NextResponse.json(product);
     } catch (error) {
-        console.log('[CLIENTE_PATCH]', error);
+        console.log('[TEAM_MEMBER_PATCH]', error);
         return new NextResponse("Internal error", { status: 500 });
     }
 };
-*/}
