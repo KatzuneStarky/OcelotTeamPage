@@ -23,7 +23,6 @@ const ProjectCard = ({
     technologies,
     github
 }: ProjectCardProps) => {
-    const router = useRouter();
 
     return (
         <div className="p-1">
@@ -42,12 +41,10 @@ const ProjectCard = ({
                     />
                 </CardContent>
                 <CardFooter className="flex items-center justify-center gap-4 w-full">
-                    <Button
-                        onClick={() => {
-                            router.push(`/projects/${id}`);
-                        }}
-                    >
-                        <EyeOpenIcon /> Details
+                    <Button>
+                        <Link href={`/projects/${id}`} className="flex items-center justify-center">
+                            <EyeOpenIcon /> Details
+                        </Link>
                     </Button>
                     <Button variant="link">
                         <Link href={github || ""} target="_blank" className="flex items-center justify-center">

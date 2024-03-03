@@ -11,24 +11,24 @@ export default auth((req) => {
     const isApiRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
     const isAuthRoute = authRoutes.includes(nextUrl.pathname)
-    
-    if(isApiRoute) {
+
+    const isDynamicProjectRoute = nextUrl.pathname.startsWith("/projects/") && nextUrl.pathname !== "/projects"
+    const isDynamicBlogRoute = nextUrl.pathname.startsWith("/company/blog/") && nextUrl.pathname !== "/company/blog"
+
+    if (isApiRoute || isDynamicProjectRoute || isDynamicBlogRoute) {
         return null
     }
 
-    if(isAuthRoute) {
-        if(isLoggedIn) {
+    if (isAuthRoute) {
+        if (isLoggedIn) {
             return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
         }
-        return null 
+        return null
     }
 
-    if(!isLoggedIn && !isPublicRoute) {
+    if (!isLoggedIn && !isPublicRoute) {
         let callbackUrl = nextUrl.pathname
-        if(nextUrl.search) callbackUrl += nextUrl.search
-        if(nextUrl.pathname.startsWith(`/projects/:id`)) {
-            return Response.redirect(new URL(`/projects/:id`, nextUrl))
-        }
+        if (nextUrl.search) callbackUrl += nextUrl.search        
 
         return Response.redirect(new URL(`/auth/login`, nextUrl))
     }

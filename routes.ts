@@ -4,8 +4,10 @@ export const publicRoutes = [
     "/company",
     "/company/ourTeam",
     "/company/blog",
+    "/company/blog/[blogId]",
     "/contact",
     "/projects",
+    "/projects/[projectId]",
     "/auth/new-verification",
     "/api/projects",
     "/api/team"
