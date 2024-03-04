@@ -48,3 +48,11 @@ export const ProjectsSchema = z.object({
             .min(5, { message: "The github url must be greater than 5 characters" })
     ),
 });
+
+export const BlogSchema = z.object({
+    title: z.string(),
+    content: z.optional(z.string().min(5).trim()),
+    converImage: z.optional(z.string()),
+    isArchived: z.optional(z.boolean()),
+    isPublished: z.optional(z.boolean())        
+});

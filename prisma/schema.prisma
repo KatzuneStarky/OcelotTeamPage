@@ -30,9 +30,6 @@ model User {
   accounts              Account[]
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
-
-  Post    Post[]
-  Comment Comment[]
 }
 
 model Account {
@@ -90,37 +87,17 @@ model TwoFactorConfirmation {
   @@unique([userId])
 }
 
-model Category {
-  id    String  @id @default(cuid())
-  slug  String  @unique
+model Blog {
+  id String @id @default(cuid())
+
   title String
-  img   String?
-  Posts Post[]
-}
+  isArchived Boolean?
+  content String?
+  coverImage String?
+  isPublished Boolean?
 
-model Post {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  slug      String    @unique
-  title     String
-  desc      String
-  img       String?
-  views     Int       @default(0)
-  catSlug   String
-  cat       Category  @relation(fields: [catSlug], references: [slug])
-  userEmail String
-  user      User      @relation(fields: [userEmail], references: [email])
-  comments  Comment[]
-}
-
-model Comment {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  desc      String
-  userEmail String
-  user      User     @relation(fields: [userEmail], references: [email])
-  postSlug  String
-  post      Post     @relation(fields: [postSlug], references: [slug])
+  createAt   DateTime @default(now())
+  updateAt   DateTime @updatedAt
 }
 
 model TeamMeber {

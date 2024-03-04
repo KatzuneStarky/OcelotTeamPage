@@ -10,7 +10,7 @@ export async function POST(
 
         const body = await req.json();
 
-        const { image, name, role, description, socialMedia } = body;
+        const { title, coverImage, content, isArchived, isPublished } = body;
 
         if (!user?.id) {
             return new NextResponse("Unauthenticated", { status: 403 });
@@ -21,27 +21,17 @@ export async function POST(
         }
 
         if (user.role === "ADMIN") {
-            const formattedSocialMedia = socialMedia.map((item: { name: string, url: string }) => ({
-                name: item.name,
-                url: item.url
-            }));
-
-            const teamMember = await prismadb.teamMeber.create({
+            const blogs = await prismadb.blog.create({
                 data: {
-                    image,
-                    name,
-                    role,
-                    description,
-                    socialMedia: {
-                        create: formattedSocialMedia 
-                    }
-                },
-                include: {
-                    socialMedia: true
+                    title,
+                    content,
+                    coverImage,
+                    isArchived,
+                    isPublished
                 }
             });
 
-            return NextResponse.json(teamMember);
+            return NextResponse.json(blogs);
         } else {
             return new NextResponse("Unauthorized", { status: 403 });
         }
@@ -56,13 +46,14 @@ export async function GET(
 ) {
     try {
         const user = await currentUser()
+        console.log(user)
         if (!user?.id) return new NextResponse("Unauthenticated", { status: 403 });
         if (user?.role != "ADMIN") return new NextResponse("Unauthorized", { status: 403 });
 
         if (user.role === "ADMIN") {
-            const teamMembers = await prismadb.teamMeber.findMany({ include: { socialMedia: true } });
+            const blogs = await prismadb.blog.findMany();
 
-            return NextResponse.json(teamMembers);
+            return NextResponse.json(blogs);
         }else {
             return new NextResponse("Unauthorized", { status: 403 });
         }

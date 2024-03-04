@@ -28,31 +28,36 @@ const Navbar = () => {
     const links = [
         {
             id: 1,
-            name: "home",
+            name: "web home",
             link: "/"
         },
         {
             id: 2,
+            name: "admin home",
+            link: "/admin"
+        },
+        {
+            id: 3,
             name: "team",
             link: "/admin/team"
         },
         {
-            id: 3,
+            id: 4,
             name: "projects",
             link: "/admin/projects"
         },
         {
-            id: 4,
+            id: 5,
             name: "blog",
             link: "/admin/blog"
         },
         {
-            id: 5,
+            id: 6,
             name: "testimonials",
             link: "/admin/testimonial"
         },    
         {
-            id: 6,
+            id: 7,
             name: "settings",
             link: "/admin/settings"
         },     
