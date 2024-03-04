@@ -10,7 +10,8 @@ export async function POST(
 
         const body = await req.json();
 
-        const { image, name, role, description } = body;
+        const { image, name, role, description, socialMedia } = body;
+        console.log(body)
 
         if (!user?.id) {
             return new NextResponse("Unauthenticated", { status: 403 });
@@ -21,12 +22,20 @@ export async function POST(
         }
 
         if (user.role === "ADMIN") {
+            const formattedSocialMedia = socialMedia.map((item: { name: string, url: string }) => ({
+                name: item.name,
+                url: item.url
+            }));
+
             const teamMember = await prismadb.teamMeber.create({
                 data: {
                     image,
                     name,
                     role,
-                    description
+                    description,
+                    socialMedia: {
+                        create: formattedSocialMedia 
+                    }
                 },
                 include: {
                     socialMedia: true

@@ -139,7 +139,7 @@ model SocialMedia {
   url  String?
 
   teamMemberId String
-  teamMember   TeamMeber @relation(fields: [teamMemberId], references: [id])
+  teamMember   TeamMeber @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
 }
 
 model Projects {

@@ -1,12 +1,12 @@
 "use client"
 
 import React, { useState } from "react"
-import { useParams, useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { TeamMemberSchema } from "@/schemas/admin-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TeamMeber } from "@prisma/client";
+import { SocialMedia, TeamMeber } from "@prisma/client";
 import axios from "axios";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input"
@@ -26,20 +26,23 @@ import { AlertModal } from "@/components/modals/alert-modal";
 import { Heading } from "@/components/layout/heading";
 import { Trash } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
 
 interface TeamFormProps {
-    initialData: TeamMeber | null
+    initialData: TeamMeber | null,
+    social: SocialMedia | null
 };
 
+
 export const TeamForm: React.FC<TeamFormProps> = ({
-    initialData
+    initialData,
+    social
 }) => {
-    const params = useParams();
     const router = useRouter();
 
     const [open, setOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false)
 
     const title = initialData ? 'Edit a team member' : 'Create a new team member';
     const description = initialData ? 'Edit a team members data' : 'Create a new record with a team members details';
@@ -54,8 +57,14 @@ export const TeamForm: React.FC<TeamFormProps> = ({
             image: initialData?.image || "",
             name: initialData?.name || "",
             role: initialData?.role || "",
-            description: initialData?.description || ""
+            description: initialData?.description || "",
+            socialMedia: [{ name: social?.name || "", url: social?.url || "" }] || [{ name: "", url: "" }]
         }
+    })
+
+    const { fields, append, remove } = useFieldArray({
+        name: "socialMedia",
+        control: form.control,
     })
 
     const onSubmit = async (values: z.infer<typeof TeamMemberSchema>) => {
@@ -93,6 +102,15 @@ export const TeamForm: React.FC<TeamFormProps> = ({
             setOpen(false);
         }
     }
+
+
+    const addSocialMedia = () => {
+        append({ name: '', url: '' });
+    };
+
+    const removeSocialMedia = (index: number) => {
+        remove(index);
+    };
 
     return (
         <>
@@ -182,6 +200,86 @@ export const TeamForm: React.FC<TeamFormProps> = ({
                                         )}
                                     />
                                 </div>
+
+                                <div className="grid grid-cols-4 gap-4">
+                                    {fields.map((field, index) => (
+                                        <div className="flex flex-col">
+                                            <div key={index} className="grid grid-cols-2 gap-4">
+                                                <FormField
+                                                    control={form.control}
+                                                    key={field.id}
+                                                    name={`socialMedia.${index}.name`}
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel className={cn(index !== 0 && "sr-only")}>
+                                                                Social Media name
+                                                            </FormLabel>
+                                                            <Select
+                                                                disabled={loading}
+                                                                onValueChange={field.onChange}
+                                                                defaultValue={field.value}
+                                                            >
+                                                                <FormControl>
+                                                                    <SelectTrigger>
+                                                                        <SelectValue placeholder="Select the social network" />
+                                                                    </SelectTrigger>
+                                                                </FormControl>
+                                                                <SelectContent>
+                                                                    <SelectItem value="logos:telegram">
+                                                                        Telegram
+                                                                    </SelectItem>
+                                                                    <SelectItem value="logos:facebook">
+                                                                        Facebook
+                                                                    </SelectItem>
+                                                                    <SelectItem value="logos:whatsapp-icon">
+                                                                        Whatsapp
+                                                                    </SelectItem>
+                                                                    <SelectItem value="pajamas:twitter">
+                                                                        Twitter / X
+                                                                    </SelectItem>
+                                                                    <SelectItem value="streamline:web">
+                                                                        Website
+                                                                    </SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+
+                                                <FormField
+                                                    control={form.control}
+                                                    key={field.id}
+                                                    name={`socialMedia.${index}.url`}
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel className={cn(index !== 0 && "sr-only")}>
+                                                                Social Media url
+                                                            </FormLabel>
+                                                            <FormControl>
+                                                                <Input {...field} />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+
+                                            </div>
+                                            <div className="flex pt-4">
+                                                {!initialData &&
+                                                    <Button type="button" onClick={addSocialMedia} className="mr-2">
+                                                        Add new social media
+                                                    </Button>
+                                                }
+
+                                                <Button variant={"destructive"} type="button" onClick={() => removeSocialMedia(index)}>
+                                                    Delete social media
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
                                 <Button disabled={loading} className="ml-auto" type="submit">
                                     {action}
                                 </Button>

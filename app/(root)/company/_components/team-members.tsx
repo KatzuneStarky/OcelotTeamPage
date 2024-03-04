@@ -1,4 +1,6 @@
 import prismadb from "@/lib/db";
+import Link from "next/link";
+import { IconName } from "./icon-name";
 
 async function TeamMembers() {
     const teamMembers = await prismadb.teamMeber.findMany({ include: { socialMedia: true } })
@@ -31,9 +33,13 @@ async function TeamMembers() {
                                     <ul className="flex space-x-4 sm:mt-0">
                                         {member.socialMedia.map((social, index) => (
                                             <li key={index}>
-                                                <a href={social.url || ""} className="text-gray-500 hover:text-gray-900 dark:hover:text-white">
-
-                                                </a>
+                                                <Link
+                                                    href={social.url || ""}
+                                                    target="_blank"
+                                                    className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
+                                                >
+                                                    <IconName name={social.name || "streamline:web"} />
+                                                </Link>
                                             </li>
                                         ))}
                                     </ul>

@@ -56,7 +56,7 @@ export async function PATCH(
 
         const body = await req.json();
 
-        const { image, name, role, description } = body;
+        const { image, name, role, description, socialMedia } = body;
 
         if (!user?.id) {
             return new NextResponse("Unauthenticated", { status: 403 });
@@ -67,6 +67,15 @@ export async function PATCH(
         }
 
         if(user.role === "ADMIN"){
+
+            const formattedSocialMedia = socialMedia.map((item: any) => ({
+                where: { teamMemberId: params.teamId },
+                data: {
+                    name: item.name,
+                    url: item.url
+                }
+            }));
+
             const member = await prismadb.teamMeber.update({
                 where: {
                     id: params.teamId
@@ -75,10 +84,17 @@ export async function PATCH(
                     image,
                     name,
                     role,
-                    description
+                    description,
+                    socialMedia: {
+                        updateMany: formattedSocialMedia
+                    },
                 },
+                include: {
+                    socialMedia: true
+                }
             })
     
+            console.log(member)
             return NextResponse.json(member);
         } else {
             return new NextResponse("Unauthorized", { status: 403 });

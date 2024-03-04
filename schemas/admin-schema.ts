@@ -17,6 +17,14 @@ export const TeamMemberSchema = z.object({
             .min(10, { message: "The description must contain more than 10 letters" })
             .max(150, { message: "The description cannot exceed 150 characters" })
     ),
+    socialMedia: z.optional(
+        z.array(
+            z.object({
+                name: z.string(),
+                url: z.string()
+            })
+        )
+    )
 });
 
 export const ProjectsSchema = z.object({
@@ -29,7 +37,7 @@ export const ProjectsSchema = z.object({
     ),
     website: z.optional(
         z.string()
-        .min(5, { message: "The website url must be greater than 5 characters" })
+            .min(5, { message: "The website url must be greater than 5 characters" })
     ),
     technologies: z.optional(
         z.string()
@@ -37,6 +45,6 @@ export const ProjectsSchema = z.object({
     ),
     github: z.optional(
         z.string()
-        .min(5, { message: "The github url must be greater than 5 characters" })
+            .min(5, { message: "The github url must be greater than 5 characters" })
     ),
 });
