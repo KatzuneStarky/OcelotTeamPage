@@ -203,7 +203,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({
 
                                 <div className="grid grid-cols-4 gap-4">
                                     {fields.map((field, index) => (
-                                        <div className="flex flex-col">
+                                        <div className="flex flex-col" key={index}>
                                             <div key={index} className="grid grid-cols-2 gap-4">
                                                 <FormField
                                                     control={form.control}
