@@ -69,42 +69,29 @@ export async function PATCH(
         if (user.role === "ADMIN") {
             console.log(socialMedia)
 
-            const formattedSocialMediaDelete = socialMedia.map((item: { teamMemberId: string, name: string, url: string }) => ({
-                where: {
-                    teamMemberId: params.teamId
-                },
-                data: {
-                    name: item.name,
-                    url: item.url
-                }
-            }));
-
             const formattedSocialMedia = socialMedia.map((item: { name: string, url: string }) => ({
                 name: item.name,
                 url: item.url
             }));
 
-            const member = await prismadb.teamMeber.update({
-                where: {
-                    id: params.teamId
-                },
-                data: {
-                    image,
-                    name,
-                    role,
-                    description,
-                    socialMedia: {
-                        deleteMany: formattedSocialMediaDelete,
-                        create: formattedSocialMedia
-                    }
-                },
-                include: {
-                    socialMedia: true
+            const memberUpdateData = {
+                image,
+                name,
+                role,
+                description,
+                socialMedia: {
+                    deleteMany: { teamMemberId: params.teamId },
+                    create: formattedSocialMedia
                 }
-            })
+            };
+    
+            const updatedMember = await prismadb.teamMeber.update({
+                where: { id: params.teamId },
+                data: memberUpdateData,
+                include: { socialMedia: true }
+            });
 
-            console.log(member)
-            return NextResponse.json(member);
+            return NextResponse.json(updatedMember);
         } else {
             return new NextResponse("Unauthorized", { status: 403 });
         }
