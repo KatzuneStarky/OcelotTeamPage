@@ -38,7 +38,7 @@ export async function DELETE(
             });
 
             return NextResponse.json(teamMember);
-        }else {
+        } else {
             return new NextResponse("Unauthorized", { status: 403 });
         }
     } catch (error) {
@@ -66,14 +66,22 @@ export async function PATCH(
             return new NextResponse("Unauthorized", { status: 403 });
         }
 
-        if(user.role === "ADMIN"){
+        if (user.role === "ADMIN") {
+            console.log(socialMedia)
 
-            const formattedSocialMedia = socialMedia.map((item: any) => ({
-                where: { teamMemberId: params.teamId },
+            const formattedSocialMediaDelete = socialMedia.map((item: { teamMemberId: string, name: string, url: string }) => ({
+                where: {
+                    teamMemberId: params.teamId
+                },
                 data: {
                     name: item.name,
                     url: item.url
                 }
+            }));
+
+            const formattedSocialMedia = socialMedia.map((item: { name: string, url: string }) => ({
+                name: item.name,
+                url: item.url
             }));
 
             const member = await prismadb.teamMeber.update({
@@ -86,14 +94,15 @@ export async function PATCH(
                     role,
                     description,
                     socialMedia: {
-                        updateMany: formattedSocialMedia
-                    },
+                        deleteMany: formattedSocialMediaDelete,
+                        create: formattedSocialMedia
+                    }
                 },
                 include: {
                     socialMedia: true
                 }
             })
-    
+
             console.log(member)
             return NextResponse.json(member);
         } else {

@@ -11,7 +11,7 @@ const page = async ({ params }: PageProps) => {
     const { teamId } = params
 
     const teamMember = await prismadb.teamMeber.findFirst({ where: { id: teamId }, include: { socialMedia: true } })
-    const socialMedia = await prismadb.socialMedia.findFirst({ where: { teamMemberId: teamId } })
+    const socialMedia = await prismadb.socialMedia.findMany({ where: { teamMemberId: teamId } })
 
     return (
         <div className="flex-col">

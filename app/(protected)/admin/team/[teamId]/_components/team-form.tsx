@@ -31,7 +31,7 @@ import { cn } from "@/lib/utils";
 
 interface TeamFormProps {
     initialData: TeamMeber | null,
-    social: SocialMedia | null
+    social: SocialMedia[] | null
 };
 
 
@@ -58,11 +58,13 @@ export const TeamForm: React.FC<TeamFormProps> = ({
             name: initialData?.name || "",
             role: initialData?.role || "",
             description: initialData?.description || "",
-            socialMedia: [{ name: social?.name || "", url: social?.url || "" }] || [{ name: "", url: "" }]
+            socialMedia: social ? social.map(item => ({ name: item?.name || "", url: item?.url || "" })) : [{
+                name: "", url: ""
+            }]
         }
     })
 
-    const { fields, append, remove } = useFieldArray({
+    const { fields, append, remove, update } = useFieldArray({
         name: "socialMedia",
         control: form.control,
     })
@@ -70,6 +72,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({
     const onSubmit = async (values: z.infer<typeof TeamMemberSchema>) => {
         try {
             setLoading(true);
+
             if (initialData) {
                 await axios.patch(`/api/team/${initialData.id}`, values);
             } else {
@@ -201,10 +204,10 @@ export const TeamForm: React.FC<TeamFormProps> = ({
                                     />
                                 </div>
 
-                                <div className="grid grid-cols-4 gap-4">
+                                <div className="grid grid-cols-2 gap-4">
                                     {fields.map((field, index) => (
                                         <div className="flex flex-col" key={index}>
-                                            <div key={index} className="grid grid-cols-2 gap-4">
+                                            <div key={index} className="grid grid-cols-3 gap-4 items-center">
                                                 <FormField
                                                     control={form.control}
                                                     key={field.id}
@@ -263,22 +266,19 @@ export const TeamForm: React.FC<TeamFormProps> = ({
                                                         </FormItem>
                                                     )}
                                                 />
-
-                                            </div>
-                                            <div className="flex pt-4">
-                                                {!initialData &&
-                                                    <Button type="button" onClick={addSocialMedia} className="mr-2">
-                                                        Add new social media
-                                                    </Button>
-                                                }
-
-                                                <Button variant={"destructive"} type="button" onClick={() => removeSocialMedia(index)}>
-                                                    Delete social media
+                                                <Button variant={"destructive"} className="w-1/4" type="button" onClick={() => removeSocialMedia(index)}>
+                                                    <Trash className="w-4 h-4" />
                                                 </Button>
                                             </div>
                                         </div>
                                     ))}
+                                    <div className="flex pt-4">
+                                        <Button type="button" onClick={addSocialMedia} className="mr-2">
+                                            Add new social media
+                                        </Button>
+                                    </div>
                                 </div>
+
 
                                 <Button disabled={loading} className="ml-auto" type="submit">
                                     {action}
