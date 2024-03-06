@@ -22,7 +22,6 @@ const ProjectsPage = async () => {
             imageUrl: item.imageUrl || "",
             name: item.name || "",
             website: item.website || "",
-            technologies: item.technologies || "",
             github: item.github || ""          
         }
     ))
