@@ -36,7 +36,7 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 403 });
         }
     } catch (error) {
-        console.log('[TEAM-MEMBER_POST]', error);
+        console.log('[BLOG_POST]', error);
         return new NextResponse("Internal error", { status: 500 });
     }
 };
@@ -46,7 +46,6 @@ export async function GET(
 ) {
     try {
         const user = await currentUser()
-        console.log(user)
         if (!user?.id) return new NextResponse("Unauthenticated", { status: 403 });
         if (user?.role != "ADMIN") return new NextResponse("Unauthorized", { status: 403 });
 

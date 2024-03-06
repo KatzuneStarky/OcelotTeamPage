@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 export type BlogColumn = {
     id: string
     title: string
+    coverImage: string
     content?: string
     isArchived?: boolean
     isPublished?: boolean
@@ -31,6 +32,10 @@ export const columns: ColumnDef<BlogColumn>[] = [
     {
         accessorKey: "content",
         header: "Content",
+    },
+    {
+        accessorKey: "coverImage",
+        header: "image",
     },
     {
         accessorKey: "isArchived",

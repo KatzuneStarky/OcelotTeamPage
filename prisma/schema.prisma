@@ -93,7 +93,7 @@ model Blog {
   title String
   isArchived Boolean?
   content String?
-  coverImage String?
+  coverImage String
   isPublished Boolean?
 
   createAt   DateTime @default(now())

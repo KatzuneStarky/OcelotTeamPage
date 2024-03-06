@@ -21,12 +21,9 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { AlertModal } from "@/components/modals/alert-modal";
 import { Heading } from "@/components/layout/heading";
 import { Trash } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
 import TipTap from "@/components/tiptap";
 import { Switch } from "@/components/ui/switch";
 
@@ -51,12 +48,11 @@ export const BlogForm: React.FC<BlogFormProps> = ({
     const action = initialData ? 'Save Changes' : 'Create';
 
     const form = useForm<z.infer<typeof BlogSchema>>({
-        mode: "onChange",
         resolver: zodResolver(BlogSchema),
         defaultValues: {
             title: initialData?.title || "",
-            converImage: initialData?.coverImage || "",
             content: initialData?.content || "",
+            coverImage: initialData?.coverImage || "",
             isArchived: initialData?.isArchived || false,
             isPublished: initialData?.isPublished || false
         }
@@ -139,7 +135,7 @@ export const BlogForm: React.FC<BlogFormProps> = ({
 
                         <FormField
                             control={form.control}
-                            name="converImage"
+                            name="coverImage"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Cover image</FormLabel>

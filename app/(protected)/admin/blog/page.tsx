@@ -21,6 +21,7 @@ const AdminBlogPage = async () => {
             id: item.id,
             title: item.title,
             content: item.content || "",
+            coverImage: item.coverImage || "",
             isArchived: item.isArchived || false,
             isPublished: item.isPublished || false
         } 
