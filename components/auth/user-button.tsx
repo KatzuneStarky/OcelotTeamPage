@@ -29,7 +29,7 @@ const UserButton = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="z-[1000]">
             <DropdownMenuItem>
-                <Button onClick={() => router.push("/profile")} variant={"ghost"} className='p-1.5 text-gray-500 focus:outline-nones transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 hover:bg-gray-100'>
+                <Button onClick={() => router.push("/admin/profile")} variant={"ghost"} className='p-1.5 text-gray-500 focus:outline-nones transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 hover:bg-gray-100'>
                     <User /> Profile
                 </Button> 
                 </DropdownMenuItem>

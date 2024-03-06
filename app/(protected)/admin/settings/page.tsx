@@ -29,6 +29,7 @@ const SettingsPage = () => {
     defaultValues: {
       password: undefined,
       newPassword: undefined,
+      image: user?.image || "",
       name: user?.name || "",
       email: user?.email || "",
       role: user?.role || undefined,
@@ -78,6 +79,24 @@ const SettingsPage = () => {
                           <Input
                             {...field}
                             placeholder="Username"
+                            disabled={isPending}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="image"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Profile image</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="image url"
                             disabled={isPending}
                           />
                         </FormControl>

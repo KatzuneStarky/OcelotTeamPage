@@ -15,6 +15,7 @@ export const RegisterSchema = z.object({
     email: z.string().email({
         message: "Email is required",
     }),
+    image: z.optional(z.string()),
     password: z.string().min(6, {
         message: "Minimum 6 characters required",
     }),
@@ -28,6 +29,7 @@ export const SettingsSchema = z.object({
         message: "Name is required",
     }),
     isTwoFactorEnabled: z.optional(z.boolean()),
+    image: z.optional(z.string()),
     role: z.enum([UserRole.ADMIN, UserRole.USER]),
     email: z.optional(z.string().email({ message: "A valid email must be entered" })),
     password: z.optional(z.string().min(6, {

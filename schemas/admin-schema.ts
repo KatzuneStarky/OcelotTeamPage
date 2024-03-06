@@ -40,8 +40,12 @@ export const ProjectsSchema = z.object({
             .min(5, { message: "The website url must be greater than 5 characters" })
     ),
     technologies: z.optional(
-        z.string()
-            .min(5)
+        z.array(
+            z.object({
+                name: z.string(),
+                icon: z.string()
+            })
+        )
     ),
     github: z.optional(
         z.string()

@@ -8,9 +8,10 @@ import * as z from "zod";
 import bcrypt from "bcrypt"
 import { SettingsSchema } from "@/schemas/auth-schema";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { currentUser } from "@/lib/auth";
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
-    const user = await useCurrentUser();
+    const user = await currentUser();
     if (!user) return { error: "No autorizado" };
 
     const dbUser = await getUserById(user?.id || "");

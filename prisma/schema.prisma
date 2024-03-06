@@ -24,7 +24,7 @@ model User {
   name                  String?
   email                 String?                @unique
   emailVerified         DateTime?
-  image                 String?
+  image                 String
   password              String?
   role                  UserRole               @default(USER)
   accounts              Account[]
@@ -90,14 +90,14 @@ model TwoFactorConfirmation {
 model Blog {
   id String @id @default(cuid())
 
-  title String
-  isArchived Boolean?
-  content String?
-  coverImage String
+  title       String
+  isArchived  Boolean?
+  content     String?
+  coverImage  String
   isPublished Boolean?
 
-  createAt   DateTime @default(now())
-  updateAt   DateTime @updatedAt
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 }
 
 model TeamMeber {
@@ -120,10 +120,20 @@ model SocialMedia {
 }
 
 model Projects {
-  id           String  @id @default(cuid())
-  name         String
-  imageUrl     String
-  website      String?
-  technologies String?
-  github       String?
+  id       String  @id @default(cuid())
+  name     String
+  imageUrl String
+  website  String?
+  github   String?
+
+  technologies Technologies[]
+}
+
+model Technologies {
+  id   String @id @default(cuid())
+  name String
+  icon String
+
+  projectId String
+  project   Projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }

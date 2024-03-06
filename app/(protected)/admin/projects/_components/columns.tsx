@@ -4,13 +4,14 @@ import { ColumnDef } from "@tanstack/react-table"
 import { CellAction } from "./cell-action"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Technologies } from "@prisma/client"
 
 export type ProjectsColumn = {
     id: string
     name?: string
     imageUrl?: string
     website?: string
-    technologies?: string
+    technologies?: Technologies[]
     github?: string
 }
 
@@ -32,10 +33,6 @@ export const columns: ColumnDef<ProjectsColumn>[] = [
     {
         accessorKey: "website",
         header: "Website",
-    },
-    {
-        accessorKey: "technologies",
-        header: "Technologies",
     },
     {
         accessorKey: "github",

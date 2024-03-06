@@ -1,10 +1,12 @@
 import SubTitle from '@/components/layout/title'
 import { Button } from '@/components/ui/button'
 import prismadb from '@/lib/db'
+import { Icon } from '@iconify/react'
 import Link from 'next/link'
 import React from 'react'
 import { FaGithub } from 'react-icons/fa'
 import { TbWorld } from "react-icons/tb";
+import { IconName } from '../../company/_components/icon-name'
 
 interface PageProps {
     params: {
@@ -33,7 +35,7 @@ const ProjectPage = async ({ params }: PageProps) => {
     const { projectId } = params
     const { lightColors, darkColors } = generateColors();
 
-    const project = await prismadb.projects.findUnique({ where: { id: projectId } })
+    const project = await prismadb.projects.findUnique({ where: { id: projectId }, include: { technologies: true } })
 
     return (
         <main className="m-10">
@@ -55,30 +57,28 @@ const ProjectPage = async ({ params }: PageProps) => {
 
                 <div className="w-full lg:w-1/4 m-auto mt-12 max-w-screen-sm">
                     <div className="p-4 border-t border-b md:border md:rounded">
-                        <div className="flex py-2">
-                            <img src={project?.imageUrl}
-                                className="h-10 w-10 rounded-full mr-2 object-cover" />
-                        </div>
                         <p className="font-semibold text-xl text-center">Technologies used</p>
-                        <div className='grid grid-cols-3 gap-4 p-5'>
-                            {
-                                project?.technologies?.split(",").map((tech, index) => {
-                                    const lightColor = lightColors[index];
-                                    const darkColor = darkColors[index];
-                                    const textColorForLight = getContrastColor(lightColor);
-                                    const textColorForDark = getContrastColor(darkColor);
-                                    return (
-                                        <p
-                                            className="font-semibold text-sm flex items-center justify-center p-4 rounded-sm"
-                                            style={{
-                                                backgroundColor: lightColor,
-                                                color: textColorForLight,
-                                            }}
-                                            key={index}
-                                        >{tech}</p>
-                                    )
-                                })
-                            }
+                        <div className='grid grid-cols-2 gap-4 p-5'>
+                            {project?.technologies.map((data, index) => {
+                                const lightColor = lightColors[index];
+                                const darkColor = darkColors[index];
+                                const textColorForLight = getContrastColor(lightColor);
+                                const textColorForDark = getContrastColor(darkColor);
+                                return (
+                                    <p className="font-semibold text-sm flex items-center justify-center p-4 rounded-sm"
+                                        style={{
+                                            backgroundColor: lightColor,
+                                            color: textColorForLight,
+                                        }}
+                                        key={index}
+                                    >
+                                        <div className='mr-2'>
+                                            <IconName name={data.icon} />
+                                        </div>
+                                        {data.name}
+                                    </p>
+                                )
+                            })}
                         </div>
                         <div className='flex items-center justify-between'>
                             <Button
@@ -93,7 +93,7 @@ const ProjectPage = async ({ params }: PageProps) => {
                             <Button
                                 className="ml-5 px-2 py-1 flex w-full 
                                     items-center justify-center rounded"
-                                >                                    
+                            >
                                 <Link href={project?.website || ""} target='_blank' className='flex items-center justify-center'>
                                     <TbWorld className='mr-2' />
                                     Website

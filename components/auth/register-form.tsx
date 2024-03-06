@@ -27,7 +27,8 @@ export const RegisterForm = () => {
         defaultValues: {
             email: "",
             password: "",
-            name: ""
+            name: "",
+            image: "",
         }
     })
 
@@ -106,6 +107,27 @@ export const RegisterForm = () => {
                                                         {...field}
                                                         disabled={isPending}
                                                         placeholder='Username'
+                                                        type='text'
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+
+                                <div className="relative mb-6" data-te-input-wrapper-init>
+                                    <FormField
+                                        control={form.control}
+                                        name='image'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Image profile</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        {...field}
+                                                        disabled={isPending}
+                                                        placeholder='image url'
                                                         type='text'
                                                     />
                                                 </FormControl>

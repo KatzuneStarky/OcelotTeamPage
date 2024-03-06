@@ -21,13 +21,23 @@ export async function POST(
         }
 
         if (user.role === "ADMIN") {
+            const formattedTechnologies = technologies.map((item: { name: string, icon: string }) => ({
+                name: item.name,
+                icon: item.icon
+            }));
+
             const projects = await prismadb.projects.create({
                 data: {
                     imageUrl,
                     name,
                     website,
-                    technologies,
-                    github
+                    github,
+                    technologies: {
+                        create: formattedTechnologies 
+                    }
+                },
+                include: {
+                    technologies: true
                 }
             });
 
@@ -45,7 +55,7 @@ export async function GET(
     req: Request,
 ) {
     try {
-        const projects = await prismadb.projects.findMany();
+        const projects = await prismadb.projects.findMany({ include: { technologies: true } });
 
         return NextResponse.json(projects);
     } catch (error) {

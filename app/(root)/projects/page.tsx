@@ -30,7 +30,6 @@ const ProjectsPage = async () => {
               name={project.name}
               github={project.github || ""}
               imageUrl={project.imageUrl}
-              technologies={project.technologies || ""}
               website={project.website || ""}
             />
           ))

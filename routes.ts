@@ -10,7 +10,8 @@ export const publicRoutes = [
     "/projects/[projectId]",
     "/auth/new-verification",
     "/api/projects",
-    "/api/team"
+    "/api/team",
+    "/api/blog/blogs"
 ]
 
 export const authRoutes = [
