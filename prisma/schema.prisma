@@ -93,6 +93,7 @@ model Blog {
   title       String
   isArchived  Boolean?
   content     String?
+  category    String?
   coverImage  String
   isPublished Boolean?
 

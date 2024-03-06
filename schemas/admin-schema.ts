@@ -57,6 +57,7 @@ export const ProjectsSchema = z.object({
 export const BlogSchema = z.object({
     title: z.string(),
     content: z.optional(z.string().min(5).trim()),
+    category: z.optional(z.string()),
     coverImage: z.string(),
     isArchived: z.optional(z.boolean()),
     isPublished: z.optional(z.boolean())        

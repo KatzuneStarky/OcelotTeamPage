@@ -2,11 +2,21 @@ import { Button } from "@/components/ui/button"
 import prismadb from "@/lib/db"
 import Link from "next/link"
 
-const BlogsPage = async () => {
-  const blogs = await prismadb.blog.findMany({
-    take: 10
-  })
+interface PageProps {
+  params: {
+    slug: string
+  }
+}
 
+const page = async ({ params }: PageProps) => {
+  const { slug } = params
+
+  const blogs = await prismadb.blog.findMany({
+    take: 10,
+    where: {
+      category: slug
+    }
+  })
   return (
     <div className="flex-col w-full h-screen">
       <div className="flex-1 space-y-4 p-8 pt-6">
@@ -42,4 +52,4 @@ const BlogsPage = async () => {
   )
 }
 
-export default BlogsPage
+export default page

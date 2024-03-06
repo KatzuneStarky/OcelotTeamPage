@@ -26,6 +26,7 @@ import { Heading } from "@/components/layout/heading";
 import { Trash } from "lucide-react";
 import TipTap from "@/components/tiptap";
 import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface BlogFormProps {
     initialData: Blog | null,
@@ -52,6 +53,7 @@ export const BlogForm: React.FC<BlogFormProps> = ({
         defaultValues: {
             title: initialData?.title || "",
             content: initialData?.content || "",
+            category: initialData?.category || "",
             coverImage: initialData?.coverImage || "",
             isArchived: initialData?.isArchived || false,
             isPublished: initialData?.isPublished || false
@@ -118,7 +120,7 @@ export const BlogForm: React.FC<BlogFormProps> = ({
             <Separator />
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
-                    <div className="md:grid md:grid-cols-2 gap-8">
+                    <div className="md:grid md:grid-cols-3 gap-8">
                         <FormField
                             control={form.control}
                             name="title"
@@ -142,6 +144,63 @@ export const BlogForm: React.FC<BlogFormProps> = ({
                                     <FormControl>
                                         <Input disabled={loading} placeholder="image url" {...field} />
                                     </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="category"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        Blog category
+                                    </FormLabel>
+                                    <Select
+                                        disabled={loading}
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select the blog category" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectLabel>Categories</SelectLabel>
+                                                <Separator />
+                                                <SelectItem value="Web_Development">
+                                                    Web Development
+                                                </SelectItem>
+
+                                                <SelectItem value="Update">
+                                                    Update
+                                                </SelectItem>
+
+                                                <SelectItem value="Blog">
+                                                    Blog
+                                                </SelectItem>
+
+                                                <SelectItem value="Announcement">
+                                                    Announcement
+                                                </SelectItem>
+
+                                                <SelectItem value="Social_Media">
+                                                    Social Media
+                                                </SelectItem>
+
+                                                <SelectItem value="News">
+                                                    News
+                                                </SelectItem>
+
+                                                <SelectItem value="Company">
+                                                    Company
+                                                </SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
                                     <FormMessage />
                                 </FormItem>
                             )}

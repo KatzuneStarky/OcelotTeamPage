@@ -9,6 +9,7 @@ export type BlogColumn = {
     id: string
     title: string
     coverImage: string
+    categoty: string
     content?: string
     isArchived?: boolean
     isPublished?: boolean
@@ -32,6 +33,10 @@ export const columns: ColumnDef<BlogColumn>[] = [
     {
         accessorKey: "content",
         header: "Content",
+    },
+    {
+        accessorKey: "category",
+        header: "Category",
     },
     {
         accessorKey: "coverImage",

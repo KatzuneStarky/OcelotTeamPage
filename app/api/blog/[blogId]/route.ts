@@ -56,7 +56,7 @@ export async function PATCH(
 
         const body = await req.json();
 
-        const { title, coverImage, content, isArchived, isPublished } = body;
+        const { title, coverImage, content, category, isArchived, isPublished } = body;
 
         if (!user?.id) {
             return new NextResponse("Unauthenticated", { status: 403 });
@@ -74,6 +74,7 @@ export async function PATCH(
                 data: {
                     title,
                     content,
+                    category,
                     coverImage,
                     isArchived,
                     isPublished
