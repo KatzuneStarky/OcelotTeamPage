@@ -22,7 +22,7 @@ const ProjectsPage = async () => {
             imageUrl: item.imageUrl || "",
             name: item.name || "",
             website: item.website || "",
-            github: item.github || ""          
+            github: item.github || "" ,         
         }
     ))
 

@@ -364,7 +364,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
                                     ))}
                                     <div className="flex pt-4">
                                         <Button type="button" onClick={addTechnologies} className="mr-2">
-                                            Add new technologie
+                                            Add new technology
                                         </Button>
                                     </div>
                                 </div>

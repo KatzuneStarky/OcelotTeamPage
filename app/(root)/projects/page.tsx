@@ -3,11 +3,11 @@ import prismadb from '@/lib/db'
 import React from 'react'
 
 const ProjectsPage = async () => {
-  const projects = await prismadb.projects.findMany()
+  const projects = await prismadb.projects.findMany({ include: { technologies: true } })
 
   return (
     <>
-      <div className='pt-[5rem] pb-[3rem]'>
+      <div className='pt-[5rem] pb-[3rem] w-full'>
         <div className='text-center'>
           <p className='text-[17px] opacity-75'>Recent Works</p>
           <h1 className='mt-[0.6rem] p-2 sm:p-0 leading-[3.5rem] 
@@ -21,7 +21,7 @@ const ProjectsPage = async () => {
       </div>
       <section
         data-aos="fade-in"
-        className="w-full max-w-sm md:max-w-5xl m-auto grid grid-cols-3 gap-5 mb-10 items-center justify-center">
+        className="w-full grid grid-cols-3 gap-5 mb-10 items-center justify-center">
         {
           projects.map((project) => (
             <ProjectCard
@@ -30,7 +30,9 @@ const ProjectsPage = async () => {
               name={project.name}
               github={project.github || ""}
               imageUrl={project.imageUrl}
+              content={project.content || ""}
               website={project.website || ""}
+              technologies={project.technologies}
             />
           ))
         }

@@ -9,7 +9,7 @@ export type BlogColumn = {
     id: string
     title: string
     coverImage: string
-    categoty: string
+    category: string
     content?: string
     isArchived?: boolean
     isPublished?: boolean
