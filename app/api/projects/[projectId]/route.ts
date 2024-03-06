@@ -62,7 +62,7 @@ export async function PATCH(
 
         const body = await req.json();
 
-        const { image, name, role, description, technologies } = body;
+        const { imageUrl, name, website, content, technologies, github } = body;
 
         if (!user?.id) {
             return new NextResponse("Unauthenticated", { status: 403 });
@@ -80,16 +80,17 @@ export async function PATCH(
             }));
 
             const projectUpdateData = {
-                image,
+                imageUrl,
                 name,
-                role,
-                description,
+                content,
+                website,
+                github,
                 technologies: {
                     deleteMany: { projectId: params.projectId },
                     create: formattedTechnologies
                 }
             };
-    
+
             const updateProject = await prismadb.projects.update({
                 where: { id: params.projectId },
                 data: projectUpdateData,

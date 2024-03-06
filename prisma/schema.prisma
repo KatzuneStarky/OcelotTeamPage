@@ -123,6 +123,7 @@ model Projects {
   id       String  @id @default(cuid())
   name     String
   imageUrl String
+  content  String?
   website  String?
   github   String?
 

@@ -35,6 +35,7 @@ export const ProjectsSchema = z.object({
         z.string()
             .min(5, { message: "The name must contain more than 5 letters" })
     ),
+    content: z.optional(z.string().min(5).trim()),
     website: z.optional(
         z.string()
             .min(5, { message: "The website url must be greater than 5 characters" })

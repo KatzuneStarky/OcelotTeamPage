@@ -10,7 +10,7 @@ export async function POST(
 
         const body = await req.json();
 
-        const { imageUrl, name, website, technologies, github } = body;
+        const { imageUrl, name, website, content, technologies, github } = body;
 
         if (!user?.id) {
             return new NextResponse("Unauthenticated", { status: 403 });
@@ -30,6 +30,7 @@ export async function POST(
                 data: {
                     imageUrl,
                     name,
+                    content,
                     website,
                     github,
                     technologies: {

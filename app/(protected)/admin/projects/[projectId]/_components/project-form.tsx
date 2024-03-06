@@ -28,6 +28,7 @@ import { Heading } from "@/components/layout/heading";
 import { Trash } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import TipTap from "@/components/tiptap";
 
 
 interface ProjectFormProps {
@@ -57,6 +58,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
             name: initialData?.name || "",
             website: initialData?.website || "",
             github: initialData?.github || "",
+            content: initialData?.content || "",
             technologies: data ? data.map(item => ({ name: item?.name || "", icon: item?.icon || "" })) : [{
                 name: "", icon: ""
             }]
@@ -195,6 +197,21 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
                                         )}
                                     />
                                 </div>
+
+                                <FormField
+                                    control={form.control}
+                                    name="content"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Project description</FormLabel>
+                                            <FormControl>
+                                                <TipTap description={field.value || ""} onChange={field.onChange} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
                                 <div className="grid grid-cols-2 gap-4">
                                     {fields.map((field, index) => (
                                         <div className="flex flex-col" key={index}>
